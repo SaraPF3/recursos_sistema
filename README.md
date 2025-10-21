@@ -6,7 +6,7 @@ Hecho por Sara Pérez
 
 El programa ejecuta tres comandos que muestran los recursos del sistema.
 
-En el archivo App.java se ejecutan los comandos guardados en sus respectivas constantes:
+En el archivo **App.java** se ejecutan los comandos guardados en sus respectivas constantes:
 
 ```java
 public class App {
@@ -47,7 +47,7 @@ public class App {
 }
 ```
 
-La clase Comando tiene el método que ejecuta los comandos. Se ha utilizado lombok:
+La clase **Comando** tiene el método que ejecuta los comandos. Se ha utilizado lombok:
 
 ```java
 @Data
@@ -92,7 +92,7 @@ public class Comando implements Ejecutable {
 }
 ```
 
-Se utiliza una interfaz, Ejecutable, que lanza el proceso de ejecución de los comandos:
+Se utiliza una interfaz, **Ejecutable**, que lanza el proceso de ejecución de los comandos:
 
 ```java
 public interface Ejecutable {
@@ -100,7 +100,7 @@ public interface Ejecutable {
 }
 ```
 
-Se utiliza la clase Informe para crear un archivo markdown con los datos obtenidos al ejecutar los comandos:
+Se utiliza la clase **Informe** para crear un archivo markdown con los datos obtenidos al ejecutar los comandos:
 
 ```java
 public class Informe {
