@@ -25,5 +25,4 @@ public class Informe {
             writer.write(textoFinal + N);
         }
     }
-    
 }

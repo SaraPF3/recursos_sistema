@@ -5,7 +5,6 @@ public class App {
     public static final String[] COMANDOPS = {"ps"};
     public static final String[] COMANDODF = {"df"};
     public static final String[] COMANDOFREE = {"free"};
-    public static final String[] COMANDOGREP = {"grep", "a"};
     public static final String NOM = "src/main/java/es/etg/dam/informes/Informe.md";
     public static final String N = "\n";
     public static final String DECORACION = "----------------------------";
