@@ -5,7 +5,7 @@ public class App {
     public static final String[] COMANDOPS = {"ps"};
     public static final String[] COMANDODF = {"df"};
     public static final String[] COMANDOFREE = {"free"};
-    public static final String NOM = "src/main/java/es/etg/dam/informes/Informe.md";
+    public static final String FICH = "src/main/java/es/etg/dam/informes/Informe.md";
     public static final String N = "\n";
     public static final String TXT_PS = "Se muestran los procesos en ejecución.";
     public static final String TXT_DF = "Se muestra información sobre el espacio utilizado y el espacio disponible de todos los sistemas de archivos montados.";
@@ -34,6 +34,6 @@ public class App {
         String salida3 = ejec3.ejecutar(null);
         inf.agregarSeccion(TEXTO_SALIDA_FREE, salida3 + N + DECORACION + N);
 
-        inf.crear(NOM);
+        inf.crear(FICH);
     }
 }
