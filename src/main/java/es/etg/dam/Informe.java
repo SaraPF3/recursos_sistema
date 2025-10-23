@@ -1,28 +1,29 @@
 package es.etg.dam;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 
 public class Informe {
 
-    private final StringBuilder contenido = new StringBuilder();
     public static final String N = "\n";
     public static final String TIT = "# Recursos del sistema";
-    public static final String HASH = "## ";
-    
-    public void agregarTitulo(){
-        contenido.append(TIT).append(N).append(N);
-    }
+    public static final String COMILLAS = "```";
+    public static final String TXT_COM = "## Comando ";
+    public static final String TXT = "text";
 
-    public void agregarSeccion(String titulo, String texto){
-        contenido.append(HASH).append(titulo).append(N).append(N);
-        contenido.append(texto).append(N);
-    }
-
-    public void crear(String nom) throws IOException {
-        String textoFinal = contenido.toString().stripTrailing();
-        try (FileWriter writer = new FileWriter(nom)) {
-            writer.write(textoFinal + N);
+    public static void crear(String ruta, List<String> info, String[] comandos) {
+        File fich = new File(ruta);
+        try (FileWriter fw = new FileWriter(fich)) {
+            fw.write(TIT + N);
+            for (int i = 0; i < info.size(); i++) {
+                fw.write(String.format(N + TXT_COM + comandos[i] + N + N));
+                String total = COMILLAS + TXT + N + info.get(i) + COMILLAS + N;
+                fw.write(total);
+            }
+        } catch (IOException e) {
+            e.getMessage();
         }
     }
 }

@@ -11,39 +11,26 @@ En el archivo **App.java** se ejecutan los comandos guardados en sus respectivas
 ```java
 public class App {
 
-    public static final String[] COMANDOPS = {"ps"};
-    public static final String[] COMANDODF = {"df"};
-    public static final String[] COMANDOFREE = {"free"};
-    public static final String FICH = "src/main/java/es/etg/dam/informes/Informe.md";
+    public static final String COMANDOPS = "ps";
+    public static final String COMANDODF = "df";
+    public static final String COMANDOFREE = "free";
+    public static final String FICH = "src/main/resources/Informe.md";
     public static final String N = "\n";
-    public static final String TXT_PS = "Se muestran los procesos en ejecución.";
-    public static final String TXT_DF = "Se muestra información sobre el espacio utilizado y el espacio disponible de todos los sistemas de archivos montados.";
-    public static final String TXT_FREE = "Se muestra información sobre el uso de la memoria del sistema.";
-    public static final String DECORACION = "----------------------------";
-    public static final String TEXTO_SALIDA_PS = "Líneas que obtiene ps" + N + N + TXT_PS + N + N + DECORACION;
-    public static final String TEXTO_SALIDA_DF = "Líneas que obtiene ds" + N + N + TXT_DF + N + N + DECORACION;
-    public static final String TEXTO_SALIDA_FREE = "Líneas que obtiene free" + N + N + TXT_FREE + N + N + DECORACION;
-    
+    public static final String TXT_COM = "Comando ";
 
     public static void main(String[] args) throws Exception {
 
-        Informe inf = new Informe();
-        inf.agregarTitulo();
+        String[] comandos = {COMANDOPS, COMANDODF, COMANDOFREE};
+        List<String> info = new ArrayList<>(); 
 
-        Ejecutable ejec = new Comando(COMANDOPS);
-        String salida1 = ejec.ejecutar(null);
-        inf.agregarSeccion(TEXTO_SALIDA_PS, salida1 + N + DECORACION + N);
+        for (String comando : comandos) {
+            Ejecutable ejec = new Comando(comando);
+            String salida = ejec.ejecutar();
+            info.add(salida);
+            System.out.println(TXT_COM + comando + N + N + salida);
+        }
 
-        Ejecutable ejec2 = new Comando(COMANDODF);
-        String salida2 = ejec2.ejecutar(null);
-        inf.agregarSeccion(TEXTO_SALIDA_DF, salida2 + N + DECORACION + N);
-
-
-        Ejecutable ejec3 = new Comando(COMANDOFREE);
-        String salida3 = ejec3.ejecutar(null);
-        inf.agregarSeccion(TEXTO_SALIDA_FREE, salida3 + N + DECORACION + N);
-
-        inf.crear(FICH);
+        Informe.crear(FICH, info, comandos);
     }
 }
 ```
@@ -55,15 +42,10 @@ La clase **Comando** tiene el método que ejecuta los comandos. Se ha utilizado 
 @AllArgsConstructor
 public class Comando implements Ejecutable {
 
-    private String[] comando;
-    private String[] parametro;
-
-    public Comando(String[] comando) {
-        this.comando = comando;
-    }
+    private String comando;
 
     @Override
-    public String ejecutar(String[] entrada) throws IOException, Exception {
+    public String ejecutar() throws IOException, Exception {
 
         String MSG_ERROR = "Ha ocurrido un error al ejecutar el comando.";
         String N = "\n";
@@ -78,7 +60,6 @@ public class Comando implements Ejecutable {
                 output.append(line).append(N);
             }
 
-            //Dejamos el programa bloqueado hasta que termine el otro.
             int exitVal = process.waitFor();
             if (exitVal == 0) {
             } else {
@@ -97,7 +78,7 @@ Se utiliza una interfaz, **Ejecutable**, que lanza el proceso de ejecución de l
 
 ```java
 public interface Ejecutable {
-    String ejecutar(String[] entrada) throws IOException, Exception;
+    String ejecutar() throws IOException, Exception;
 }
 ```
 
@@ -106,24 +87,23 @@ Se utiliza la clase **Informe** para crear un archivo markdown con los datos obt
 ```java
 public class Informe {
 
-    private final StringBuilder contenido = new StringBuilder();
     public static final String N = "\n";
     public static final String TIT = "# Recursos del sistema";
-    public static final String HASH = "## ";
-    
-    public void agregarTitulo(){
-        contenido.append(TIT).append(N).append(N);
-    }
+    public static final String COMILLAS = "```";
+    public static final String TXT_COM = "## Comando ";
+    public static final String TXT = "text";
 
-    public void agregarSeccion(String titulo, String texto){
-        contenido.append(HASH).append(titulo).append(N).append(N);
-        contenido.append(texto).append(N);
-    }
-
-    public void crear(String nom) throws IOException {
-        String textoFinal = contenido.toString().stripTrailing();
-        try (FileWriter writer = new FileWriter(nom)) {
-            writer.write(textoFinal + N);
+    public static void crear(String ruta, List<String> info, String[] comandos) {
+        File fich = new File(ruta);
+        try (FileWriter fw = new FileWriter(fich)) {
+            fw.write(TIT + N);
+            for (int i = 0; i < info.size(); i++) {
+                fw.write(String.format(N + TXT_COM + comandos[i] + N + N));
+                String total = COMILLAS + TXT + N + info.get(i) + COMILLAS + N;
+                fw.write(total);
+            }
+        } catch (IOException e) {
+            e.getMessage();
         }
     }
 }

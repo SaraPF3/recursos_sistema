@@ -11,15 +11,10 @@ import lombok.Data;
 @AllArgsConstructor
 public class Comando implements Ejecutable {
 
-    private String[] comando;
-    private String[] parametro;
-
-    public Comando(String[] comando) {
-        this.comando = comando;
-    }
+    private String comando;
 
     @Override
-    public String ejecutar(String[] entrada) throws IOException, Exception {
+    public String ejecutar() throws IOException, Exception {
 
         String MSG_ERROR = "Ha ocurrido un error al ejecutar el comando.";
         String N = "\n";

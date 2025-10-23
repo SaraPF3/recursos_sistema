@@ -3,5 +3,5 @@ package es.etg.dam;
 import java.io.IOException;
 
 public interface Ejecutable {
-    String ejecutar(String[] entrada) throws IOException, Exception;
+    String ejecutar() throws IOException, Exception;
 }
