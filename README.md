@@ -4,7 +4,7 @@ Hecho por Sara Pérez
 
 > El link del repositorio es: <https://github.com/SaraPF3/recursos_sistema>
 
-El programa ejecuta tres comandos que muestran los recursos del sistema.
+El programa ejecuta tres comandos que muestran los recursos del sistema y guarda los datos en un fichero con formato markdown.
 
 En el archivo **App.java** se ejecutan los comandos guardados en sus respectivas constantes:
 
@@ -49,6 +49,8 @@ public class Comando implements Ejecutable {
 
         String MSG_ERROR = "Ha ocurrido un error al ejecutar el comando.";
         String N = "\n";
+        int NUM0 = 0;
+        int NUM_ERR = 34;
         StringBuilder output = new StringBuilder();
 
         try {
@@ -61,13 +63,13 @@ public class Comando implements Ejecutable {
             }
 
             int exitVal = process.waitFor();
-            if (exitVal == 0) {
+            if (exitVal == NUM0) {
             } else {
                 System.out.println(MSG_ERROR);
             }
 
         } catch (IOException | InterruptedException e) {
-            System.exit(34);
+            System.exit(NUM_ERR);
         }
         return output.toString();
     }
