@@ -34,7 +34,6 @@ public class Comando implements Ejecutable {
                 output.append(line).append(N);
             }
 
-            //Dejamos el programa bloqueado hasta que termine el otro.
             int exitVal = process.waitFor();
             if (exitVal == 0) {
             } else {
